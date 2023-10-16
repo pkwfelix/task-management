@@ -15,7 +15,7 @@
 		</v-navigation-drawer>
 
 		<v-main class="d-flex justify-center bg-grey-lighten-4" style="min-height: 100dvh" >
-    		<router-view />
+    		<div class="w-100"><router-view /></div>
 		</v-main>
 	</v-layout>
   </v-main>

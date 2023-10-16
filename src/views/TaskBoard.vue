@@ -1,6 +1,5 @@
 <template>
 	<TaskProgress />
-	
 	<TaskGrid />
 </template>
 <script setup>

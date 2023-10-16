@@ -1,15 +1,18 @@
 <template>
-    <div>
-
-    </div>
+    <v-container with-background>
+        <v-progress-linear model-value="20" :height="12"></v-progress-linear>
+        {{ progressMsg }}
+    </v-container>
 </template>
 
 <script>
 export default {
     setup () {
         
-
-        return {}
+        const progressMsg = 'progressMsg message'    
+        return {
+            progressMsg
+        }
     }
 }
 </script>

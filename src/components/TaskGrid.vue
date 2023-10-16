@@ -1,32 +1,39 @@
 <template>
-    <div>
-        <v-container with-background>
-            <v-row>
-                <v-col
-                    v-for="n in 3"
-                    :key="n"
-                    cols="12"
-                    sm="4"
-                >
-                    <v-sheet 
-                    class="ma-2 pa-2"
-                    rounded="rounded">
-                        Col
-                    </v-sheet>
-                </v-col>
-            </v-row>
-        </v-container>
-    </div>
+    <v-container with-background>
+        <v-row>
+            <v-col
+                v-for="taskStatus in taskStatuses"
+                :key="taskStatus.value"
+                cols="12"
+                sm="4"
+            >
+                <v-sheet 
+                class="pa-2"
+                width="100%"
+                rounded="rounded">
+                    <h4 class="text-center font-weight-bold mb-4">{{ taskStatus.title }}</h4>
+                    <TaskGridList :taskStatus="taskStatus.value" />
+                </v-sheet>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
-
-<script>
-export default {
-    setup () {
-        
-
-        return {}
+<script setup>
+import TaskGridList from '@/components/TaskGridList.vue'
+const taskStatuses = [
+    {
+        title: 'Pending',
+        value: 'pending'
+    },
+    {
+        title: 'Processing',
+        value: 'processing'
+    },
+    {
+        title: 'Completed',
+        value: 'completed'
     }
-}
+]
 </script>
 
 <style lang="scss" scoped>

@@ -27,6 +27,7 @@
 		<DatePicker
 			label="Estimated Date"
 			v-model="search.eta"
+			variant="underlined"
 		></DatePicker>
 		<v-btn
 			:loading="loading"

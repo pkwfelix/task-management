@@ -6,8 +6,7 @@
                 :model-value="formattedDate"
                 readonly
                 v-bind="props"
-                hide-details
-                variant="underlined"
+                :variant="variant"
                 append-inner-icon="mdi-calendar"
             ></v-text-field>
         </template>
@@ -19,8 +18,9 @@
   
 <script setup>
 import { ref, computed, watch, defineProps, defineEmits } from "vue";
-const { label, modelValue } = defineProps([
+const { label, variant, modelValue } = defineProps([
     "label",
+    "variant",
     "modelValue",
 ]);
 const emit = defineEmits("update:modelValue");

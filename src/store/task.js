@@ -5,6 +5,7 @@ export const useTaskStore = defineStore({
 	state: () => ({
 		tasks: [],
         id: 0,
+        order: 0,
         search: {
             title: '',
             description: '',
@@ -13,9 +14,7 @@ export const useTaskStore = defineStore({
         }
 	}),
     getters: {
-        getTaskbyStatus(status) {
-            return this.tasks.filter(task => task.status === status)
-        }
+        getTaskbyStatus: (state) => (status) => state.tasks.filter(task => task.status === status)
     },
     actions: {
         addTask(item) {

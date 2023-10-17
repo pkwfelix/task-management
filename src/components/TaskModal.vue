@@ -11,16 +11,16 @@
             <v-text-field 
                 label="Title" 
                 variant="outlined" 
-                v-model="inputTitle">
+                v-model="taskForm.title">
             </v-text-field>
             <v-textarea 
                 label="Description" 
                 variant="outlined" 
-                v-model="inputDescription">
+                v-model="taskForm.description">
             </v-textarea>
             <VueDatePicker 
             class="mb-4"
-            v-model="inputEta"
+            v-model="taskForm.eta"
             :month-change-on-scroll="false"
             :auto-apply="false"
             :format="format">
@@ -33,13 +33,13 @@
                 hint="Hit Enter to insert multiple labels!"
                 persistent-hint
                 variant="outlined"
-                v-model="inputLabel"
+                v-model="taskForm.label"
                 :items="[]"
                 class="mb-4"
             ></v-combobox>
             <v-select
             label="Status"
-            v-model="inputStatus"
+            v-model="taskForm.status"
             :items="taskStatuses"
             item-title="title"
             item-value="value"
@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/store/app';
 import { useTaskStore } from '@/store/task';
@@ -79,26 +79,30 @@ const format = (dt) => {
 }
 
 // Form Data
-const inputTitle = ref('');
-const inputDescription = ref('');
-const inputEta = ref(new Date());
-const inputLabel = ref([]);
-const inputAttachment = ref([]);
-const inputStatus = ref('pending');
-
+const initialTaskForm = () => ({
+    title: "",
+    description: "",
+    eta: null,
+    attachment: [],
+    status: "pending",
+    label: []
+});
+const taskForm = reactive(initialTaskForm());
+const resetTaskForm = () => Object.assign(taskForm, initialTaskForm());
 function updateImage(obj) {
     inputAttachment.value = obj
 }
 
 function addNewTask() {
     taskStore.addTask({
-        title: inputTitle.value,
-        description: inputDescription.value,
-        eta: inputEta.value,
-        label: inputLabel.value,
-        attachment: inputAttachment.value,
-        status: inputStatus.value
+        title: taskForm.title,
+        description: taskForm.description,
+        eta: taskForm.eta,
+        label: taskForm.label,
+        attachment: taskForm.attachment,
+        status: taskForm.status
     })
+    resetTaskForm();
     taskModal.value = false;
 }
 

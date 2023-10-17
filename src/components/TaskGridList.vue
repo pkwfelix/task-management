@@ -1,20 +1,18 @@
 <template>
     <div>
-        Sheet for {{ taskStatus }}
+        <TaskCard v-for="task in tasksFiltered" :taskObj="task" class="mb-2"></TaskCard>
     </div>
 </template>
 
-<script>
-export default {
-    props:['taskStatus'],
-    setup () {
-        
+<script setup>
+import { defineProps, computed } from "vue";
+import { storeToRefs } from 'pinia'
+import { useTaskStore } from '@/store/task';
+import TaskCard from '@/components/TaskCard';
 
-        return {}
-    }
-}
+const taskStore = useTaskStore();
+const props = defineProps({
+    taskStatus: String
+})
+const tasksFiltered =  computed(()=>taskStore.getTaskbyStatus(props.taskStatus));
 </script>
-
-<style lang="scss" scoped>
-
-</style>

@@ -16,7 +16,8 @@
                             size="small"
                             class="btn-close"
                             density="compact" icon="mdi-close"
-                            @click="removeFile(file.id)">
+                            type="button"
+                            @click.prevent="remove(file)">
                         </v-btn>
                     </div>
                 </v-col>
@@ -109,6 +110,10 @@
             }
             this.$emit("updateImage", this.files);
         },
+        
+        remove(file) {
+            this.$refs.upload.remove(file)
+        }
     }
   }
   </script>

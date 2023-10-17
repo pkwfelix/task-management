@@ -11,7 +11,8 @@
             <v-text-field 
                 label="Title" 
                 variant="outlined" 
-                v-model="taskForm.title">
+                v-model="taskForm.title"
+                >
             </v-text-field>
             <v-textarea 
                 label="Description" 
@@ -90,7 +91,7 @@ const initialTaskForm = () => ({
 const taskForm = reactive(initialTaskForm());
 const resetTaskForm = () => Object.assign(taskForm, initialTaskForm());
 function updateImage(obj) {
-    inputAttachment.value = obj
+    taskForm.attachment = obj
 }
 
 function addNewTask() {

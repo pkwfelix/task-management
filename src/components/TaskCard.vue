@@ -4,7 +4,7 @@
         max-width="368"
     >
         <v-card-item>
-            <v-card-title>{{ taskObj.title }}</v-card-title>
+            <v-card-title class="text-subtitle-1">{{ taskObj.title }}</v-card-title>
 
             <v-card-subtitle v-if="taskObj.eta" >
                 <v-icon 

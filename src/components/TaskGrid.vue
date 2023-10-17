@@ -19,21 +19,11 @@
     </v-container>
 </template>
 <script setup>
+import { storeToRefs } from 'pinia'
 import TaskGridList from '@/components/TaskGridList.vue'
-const taskStatuses = [
-    {
-        title: 'Pending',
-        value: 'pending'
-    },
-    {
-        title: 'Processing',
-        value: 'processing'
-    },
-    {
-        title: 'Completed',
-        value: 'completed'
-    }
-]
+import { useAppStore } from '@/store/app';
+const appStore = useAppStore();
+const { taskStatuses } = storeToRefs(appStore);
 </script>
 
 <style lang="scss" scoped>

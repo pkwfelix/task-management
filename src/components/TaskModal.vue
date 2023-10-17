@@ -35,7 +35,16 @@
                 variant="outlined"
                 v-model="inputLabel"
                 :items="[]"
+                class="mb-4"
             ></v-combobox>
+            <v-select
+            label="Status"
+            v-model="inputStatus"
+            :items="taskStatuses"
+            item-title="title"
+            item-value="value"
+            variant="outlined"
+            ></v-select>
         </v-card-text>
         <v-card-actions class="justify-space-between">
             <v-btn color="secondary" @click="dialog = false">Close</v-btn>
@@ -55,7 +64,7 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import FileUploadField from '@/components/common/FileUploadField';
 const appStore = useAppStore();
 const taskStore = useTaskStore();
-const { taskModal } = storeToRefs(appStore);
+const { taskModal, taskStatuses } = storeToRefs(appStore);
 
 const modalTitle = ref('New Task');
 
@@ -75,6 +84,7 @@ const inputDescription = ref('');
 const inputEta = ref(new Date());
 const inputLabel = ref([]);
 const inputAttachment = ref([]);
+const inputStatus = ref('pending');
 
 function updateImage(obj) {
     inputAttachment.value = obj
@@ -86,7 +96,8 @@ function addNewTask() {
         description: inputDescription.value,
         eta: inputEta.value,
         label: inputLabel.value,
-        attachment: inputAttachment.value
+        attachment: inputAttachment.value,
+        status: inputStatus.value
     })
     taskModal.value = false;
 }

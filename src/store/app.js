@@ -5,7 +5,21 @@ export const useAppStore = defineStore('app', {
 	state: () => ({
 		filterDrawer: false,
 		taskModal: false,
-		alertMessage: null
+		alertMessage: null,
+		taskStatuses: [
+			{
+				title: 'Pending',
+				value: 'pending'
+			},
+			{
+				title: 'Processing',
+				value: 'processing'
+			},
+			{
+				title: 'Completed',
+				value: 'completed'
+			}
+		]
 	}),
 	action: {
         startAlertTimer(msg) {

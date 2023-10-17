@@ -56,7 +56,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/store/app';
 import { useTaskStore } from '@/store/task';
@@ -67,7 +67,14 @@ const appStore = useAppStore();
 const taskStore = useTaskStore();
 const { taskModal, taskStatuses } = storeToRefs(appStore);
 
-const modalTitle = ref('New Task');
+// If taskObj exist as prop (edit)
+const props = defineProps({
+    taskObj: Object
+})
+
+const modalTitle = computed(() => {
+    return props.taskObj ? "Edit Task" : "Add New Task"
+});
 
 const format = (dt) => {
     const day = dt.getDate();
@@ -106,5 +113,6 @@ function addNewTask() {
     resetTaskForm();
     taskModal.value = false;
 }
+
 
 </script>

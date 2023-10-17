@@ -8,7 +8,9 @@
 import vuetify from './vuetify'
 import pinia from '../store'
 import router from '../router'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
+pinia.use(piniaPluginPersistedstate)
 export function registerPlugins (app) {
   app
     .use(vuetify)

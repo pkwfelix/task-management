@@ -53,10 +53,10 @@
     components: {
         FileUpload,
     },
-  
+    props: ['existingAttachment'],
     data() {
         return {
-            files: [],
+            files: this.existingAttachment ? this.existingAttachment : [],
         }
     },
     methods: {
@@ -172,6 +172,7 @@
     color: #fff;
     white-space: nowrap;
     padding: 0 2px;
+    overflow: hidden;
 }
 .attachment-thumb .btn-close {
     position: absolute;

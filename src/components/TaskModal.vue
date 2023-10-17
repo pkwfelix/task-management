@@ -26,7 +26,7 @@
             :auto-apply="false"
             :format="format">
             </VueDatePicker>
-            <FileUploadField @updateImage="updateImage" />
+            <FileUploadField @updateImage="updateImage" :existingAttachment="taskForm.attachment"/>
             <v-combobox
                 chips
                 multiple
@@ -64,7 +64,6 @@ import { useTaskStore } from '@/store/task';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import FileUploadField from '@/components/common/FileUploadField';
-import { onMounted } from 'vue';
 const appStore = useAppStore();
 const taskStore = useTaskStore();
 const { taskModal, taskStatuses } = storeToRefs(appStore);

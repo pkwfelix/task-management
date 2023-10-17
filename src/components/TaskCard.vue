@@ -53,8 +53,11 @@ import { defineProps, computed } from "vue";
 import { storeToRefs } from 'pinia'
 import { useTaskStore } from '@/store/task';
 import { useDate } from 'vuetify/labs/date'
+import { useRouter } from 'vue-router';
+import router from "@/router";
 
 const taskStore = useTaskStore();
+
 const props = defineProps({
     taskObj: Object
 })
@@ -80,5 +83,7 @@ const descriptionTruncate = computed(()=> truncateString(props.taskObj.descripti
 function deleteTask(id) {
     taskStore.deleteTodo(id);
 }
-
+function editTask(id) {
+    router.push('/t/' + id);
+}
 </script>

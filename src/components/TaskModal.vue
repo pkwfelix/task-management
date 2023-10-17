@@ -49,20 +49,22 @@
         </v-card-text>
         <v-card-actions class="justify-space-between">
             <v-btn color="secondary" @click="dialog = false">Close</v-btn>
-            <v-btn color="primary" variant="elevated" @click="addNewTask">Create</v-btn>
+            <v-btn v-if="!props.taskObj.id" color="primary" variant="elevated" @click="addNewTask">Create</v-btn>
+            <v-btn v-else color="primary" variant="elevated" @click="updateTask">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/store/app';
 import { useTaskStore } from '@/store/task';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import FileUploadField from '@/components/common/FileUploadField';
+import { onMounted } from 'vue';
 const appStore = useAppStore();
 const taskStore = useTaskStore();
 const { taskModal, taskStatuses } = storeToRefs(appStore);
@@ -97,6 +99,11 @@ const initialTaskForm = () => ({
 });
 const taskForm = reactive(initialTaskForm());
 const resetTaskForm = () => Object.assign(taskForm, initialTaskForm());
+const editTaskForm = () => Object.assign(taskForm, props.taskObj);
+
+watch(() => props.taskObj, () => {
+    editTaskForm();
+})
 function updateImage(obj) {
     taskForm.attachment = obj
 }
@@ -114,5 +121,18 @@ function addNewTask() {
     taskModal.value = false;
 }
 
+function updateTask() {
+    taskStore.updateTask({
+        id: props.taskObj.id,
+        title: taskForm.title,
+        description: taskForm.description,
+        eta: taskForm.eta,
+        label: taskForm.label,
+        attachment: taskForm.attachment,
+        status: taskForm.status
+    })
+    resetTaskForm();
+    taskModal.value = false;
+}
 
 </script>

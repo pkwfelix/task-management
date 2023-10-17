@@ -33,7 +33,6 @@ const taskObj = ref({});
 function checkTaskIdRoute() {
 	if (route.params.taskId) {
 		taskModal.value = true;
-		console.log(taskStore.getTaskbyId(route.params.taskId))
 		taskObj.value = taskStore.getTaskbyId(route.params.taskId);
 	}
 }

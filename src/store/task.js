@@ -15,8 +15,8 @@ export const useTaskStore = defineStore({
 	}),
     persist: true,
     getters: {
-        getTaskbyStatus: (state) => (status) => state.tasks.filter(task => task.status === status),
-        getTaskbyId: (state) => (id) => state.tasks.find(task => task.id === id)
+        getTaskbyStatus: (state) => (status) => state.tasks.filter(task => task.status == status),
+        getTaskbyId: (state) => (taskId) => state.tasks.find(task => task.id == taskId),
     },
     actions: {
         addTask(item) {
@@ -26,14 +26,11 @@ export const useTaskStore = defineStore({
             });
         },
         updateTask(item) {
+            console.log(item);
             this.tasks.find((task) => {
-                if (task.id === item.id) {
-                    task.title = item.title;
-                    task.description = item.description;
-                    task.label = item.label;
-                    task.eta = item.eta;
-                    task.attachment = item.attachment;
-                    task.status = item.status;
+                if (task.id == item.id) {
+                    console.log('123');
+                    Object.assign(task, item)
                 }
             });
         },

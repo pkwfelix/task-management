@@ -16,8 +16,8 @@ export const useAppStore = defineStore('app', {
 				value: 'processing'
 			},
 			{
-				title: 'Completed',
-				value: 'completed'
+				title: 'Done',
+				value: 'done'
 			}
 		]
 	}),

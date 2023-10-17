@@ -24,13 +24,14 @@
 			variant="underlined"
 		></v-text-field>
 		<!-- <v-date-picker></v-date-picker> -->
-		<DatePicker
-			label="Estimated Date"
-			v-model="search.eta"
-			variant="underlined"
-		></DatePicker>
+		<VueDatePicker 
+		v-model="search.eta"
+		:enable-time-picker="false"
+		:month-change-on-scroll="false"
+		:auto-apply="false"
+		:format="format">
+		</VueDatePicker>
 		<v-btn
-			:loading="loading"
 			type="submit"
 			block
 			class="mt-2"
@@ -43,7 +44,23 @@
 <script setup>
 import { storeToRefs } from 'pinia'
 import { useTaskStore } from '@/store/task';
-import DatePicker from '@/components/common/DatePickerField';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 const taskStore = useTaskStore();
 const { search } = storeToRefs(taskStore);
+
+const rules = [
+];
+
+const format = (date) => {
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+}
+
+function submit () {
+	console.log('test');
+}
 </script>

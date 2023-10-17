@@ -5,10 +5,14 @@ export const useAppStore = defineStore('app', {
 	state: () => ({
 		filterDrawer: false,
 		taskModal: false,
+		alertMessage: null
 	}),
 	action: {
-        toggleDrawer() {
-            this.filterDrawer != this.filterDrawer;
+        startAlertTimer(msg) {
+            this.startAlertTimer = msg;
+			setTimeout(() => {
+				this.alertMessage = null;
+			}, 3000);
         },
 	}
 })

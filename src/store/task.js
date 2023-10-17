@@ -26,7 +26,6 @@ export const useTaskStore = defineStore({
             });
         },
         updateTask(item) {
-            console.log(item);
             this.tasks.find((task) => {
                 if (task.id == item.id) {
                     console.log('123');

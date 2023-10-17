@@ -10,13 +10,17 @@
                 append-inner-icon="mdi-calendar"
             ></v-text-field>
         </template>
-        <v-date-picker v-model="selectedDate" hide-actions title="" format="YYYY-MM-DD">
+        <v-date-picker v-model="selectedDate" hide-actions title="">
             <template v-slot:header></template>
         </v-date-picker>
     </v-menu>
-  </template>
+</template>
   
 <script setup>
+import { useDate } from 'vuetify/labs/date'
+
+const date = useDate()
+
 import { ref, computed, watch, defineProps, defineEmits } from "vue";
 const { label, variant, modelValue } = defineProps([
     "label",
@@ -29,14 +33,11 @@ const isDatePickerOpen = ref(false);
 const selectedDate = ref(modelValue);
 
 const formattedDate = computed(() => {
-    return selectedDate.value ? new Date(selectedDate.value).toDateString() : "";
+    return selectedDate.value ? date.format(selectedDate.value, 'fullDateWithWeekday') : "";
 });
 
 watch(modelValue, (newDate) => {
     selectedDate.value = newDate;
 });
 
-watch(selectedDate, (newDate) => {
-    emit("update:modelValue", newDate);
-});
 </script>

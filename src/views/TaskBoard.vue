@@ -27,6 +27,7 @@ watch(taskModal, (newVal) => {
 		router.replace({ 
 			path: '/',
 		})
+		taskObj.value = {};
 	}
 })
 const taskObj = ref({});

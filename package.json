@@ -18,6 +18,7 @@
     "vue": "^3.2.0",
     "vue-router": "^4.0.0",
     "vue-upload-component": "^3.1.8",
+    "vuedraggable": "^4.1.0",
     "vuetify": "^3.3.4"
   },
   "devDependencies": {

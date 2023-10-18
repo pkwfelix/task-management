@@ -35,7 +35,7 @@ export const useTaskStore = defineStore({
         },
         changeStatus(id, status) {
             this.tasks.find((task) => {
-                if (task.id === id) {
+                if (task.id == id) {
                     task.status = status;
                 }
             })

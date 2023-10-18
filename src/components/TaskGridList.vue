@@ -1,10 +1,20 @@
 <template>
     <div>
-        <TaskCard v-for="task in tasksFiltered" :taskObj="task" class="mb-2"></TaskCard>
+        <draggable 
+        class="v-card" 
+        group="tasks" 
+        :list="tasksFiltered" 
+        @end="onEnd"
+        @change="log($event, taskStatus)">
+            <template #item="{element, index}">
+                <TaskCard :taskObj="element" class="mb-2"></TaskCard>
+            </template>
+        </draggable>
     </div>
 </template>
 
 <script setup>
+import draggable from 'vuedraggable'
 import { defineProps, computed } from "vue";
 import { storeToRefs } from 'pinia'
 import { useTaskStore } from '@/store/task';
@@ -44,4 +54,10 @@ const tasksFiltered =  computed(()=> {
         return taskStore.getTaskbyStatus(props.taskStatus);
     }
 });
+function log(evt, status) {
+    if (evt.added) {
+    taskStore.changeStatus(evt.added.element.id, status)
+    }
+}
+
 </script>

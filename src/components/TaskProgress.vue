@@ -17,9 +17,11 @@ const taskStore = useTaskStore();
 import { computed } from 'vue';
 
 const progress = computed(() => {
+    let total = [].concat(...taskStore.tasks.map(({list}) => list || [])).length;
+    let done = taskStore.tasks.find(taskCol => taskCol.type == 'done').list.length
     return {
-        total: taskStore.tasks.length,
-        done: taskStore.tasks.filter(task => task.status == 'done').length / taskStore.tasks.length * 100,
+        total: total,
+        done: done / total * 100,
     }
 });
 </script>

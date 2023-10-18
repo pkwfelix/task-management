@@ -6,7 +6,7 @@
         :animation="200" ghost-class="ghost-card"
         v-model="tasksFiltered"
         itemKey="index"
-        @change="changeStatus($event, props.taskStatus)">
+        @change="changeStatus($event, props.taskCol.type)">
             <template #item="{element, index}">
                 <TaskCard :taskObj="element" class="mb-2"></TaskCard>
             </template>
@@ -67,8 +67,8 @@ const tasksFiltered = computed({
     }
 });
 function changeStatus(evt, status) {
-    if (evt.added && evt.added.status !== status) {
-        taskStore.changeStatus(evt.added.element.id, status)
+    if (evt.added) {
+        taskStore.changeStatus(evt.added.element, status)
     }
 }
 </script>

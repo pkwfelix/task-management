@@ -107,7 +107,7 @@ const props = defineProps({
 })
 
 const modalTitle = computed(() => {
-    return props.taskObj.id ? "Edit Task" : "Add New Task"
+    return props.taskObj && props.taskObj.id ? "Edit Task" : "Add New Task"
 });
 
 const format = (dt) => {
@@ -132,11 +132,11 @@ const initialTaskForm = () => ({
 });
 const commentField = ref("");
 const taskForm = reactive(initialTaskForm());
-const resetTaskForm = () => Object.assign(taskForm, initialTaskForm());
+const resetTaskForm = () => Object.assign(taskForm, initialTaskForm(), commentField.value = "");
 const editTaskForm = () => Object.assign(taskForm, props.taskObj);
 
 watch(() => props.taskObj, () => {
-    if (props.taskObj.id) {
+    if (props.taskObj && props.taskObj.id) {
         editTaskForm();
     } else {
         resetTaskForm();

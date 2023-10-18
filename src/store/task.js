@@ -23,7 +23,7 @@ export const useTaskStore = defineStore({
     persist: true,
     getters: {
         getTaskbyStatus: (state) => (status) => state.tasks.filter(task => task.status == status),
-        getTaskbyId: (state) => (taskId) => state.tasks.find(task => task.id == taskId),
+        getTaskbyId: (state) => (taskId) => [].concat(...state.tasks.map(({list}) => list || [])).find(task => task.id == taskId),
     },
     actions: {
         addTask(item) {
@@ -33,34 +33,36 @@ export const useTaskStore = defineStore({
             });
         },
         updateTask(item) {
-            this.tasks.find((task) => {
-                if (task.id == item.id) {
-                    Object.assign(task, item)
+            const allTasks = [].concat(...this.tasks.map(({list}) => list || []));
+            const taskToUpdate = allTasks.find((task) => task.id == item.id);
+        
+            if (taskToUpdate) {
+                if (item.status == taskToUpdate.status) {
+                    Object.assign(taskToUpdate, item);
+                } else {
+                    const indexToRemove = this.tasks.find((taskCol) => taskCol.type == item.status).list.map(e => e.id).indexOf(item.id);
+                    const taskColToUpdate = this.tasks.find((taskCol) => taskCol.type == taskToUpdate.status);
+                    const taskColToAdd = this.tasks.find((taskCol) => taskCol.type == item.status);
+                    
+                    taskColToUpdate.list.splice(indexToRemove, 1);
+                    taskColToAdd.list.push(taskToUpdate);
+                    Object.assign(taskToUpdate, item);
                 }
-            });
+            }
         },
         deleteTodo(id) {
-            this.tasks = this.tasks.filter((task) => {
-                return task.id !== id;
-            });
+            const status = this.tasks.flatMap(({ list }) => list || []).find((task) => task.id == id)?.status;
+            const index = this.tasks.find((taskCol) => taskCol.type == status).list.map(e => e.id).indexOf(id);
+            this.tasks.find((taskCol) => taskCol.type == status).list.splice(index, 1);
         },
-        changeStatus(id, status) {
-            this.tasks.find((task) => {
-                if (task.id == id) {
+        changeStatus(obj, status) {
+            const taskObj = this.tasks.find(task => task.type === status);
+            
+            if (taskObj) {
+                taskObj.list.forEach(task => {
                     task.status = status;
-                }
-            })
-        },
-        // changeOrderInCol(movedTask, tasksList) {
-        //     console.log(tasksList.length);
-        //     tasksList.forEach((taskInList , index) => {
-        //         this.tasks.find((task) => {
-        //             if (task.id == taskInList.id) {
-        //                 task.order = index;
-        //                 console.log('name:'+task.title + ', index:'+index);
-        //             }
-        //         })
-        //     })
-        // },
+                });
+            }
+        }
     }
 })

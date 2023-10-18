@@ -14,16 +14,25 @@
             </v-card-subtitle>
         </v-card-item>
         <v-card-text>
-            <div v-if="taskObj.description">
+            <div 
+                v-if="taskObj.description" 
+                class="mb-4">
                 Description:<br/>
                 {{ descriptionTruncate }}
             </div>
             <div
-                class="my-4 text-subtitle-1"
+                class="mb-4 text-subtitle-1"
                 v-if="taskObj.attachment && taskObj.attachment.length > 0"
             >
                 <v-icon size="sm" icon="mdi-paperclip"></v-icon>
                 {{ taskObj.attachment.length }}
+            </div>
+            <div v-if="taskObj.label.length > 0">
+                <v-chip 
+                v-for="label in taskObj.label"
+                size="x-small">
+                    {{ label }}
+                </v-chip>
             </div>
         </v-card-text>
         <v-card-actions class="justify-space-between">

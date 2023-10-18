@@ -19,6 +19,7 @@
                 variant="outlined" 
                 v-model="taskForm.description">
             </v-textarea>
+           
             <VueDatePicker 
             class="mb-4"
             v-model="taskForm.eta"
@@ -26,7 +27,6 @@
             :auto-apply="false"
             :format="format">
             </VueDatePicker>
-            <FileUploadField @updateImage="updateImage" :existingAttachment="taskForm.attachment"/>
             <v-combobox
                 chips
                 multiple
@@ -46,7 +46,36 @@
             item-value="value"
             variant="outlined"
             ></v-select>
-        </v-card-text>
+            <FileUploadField @updateImage="updateImage" :existingAttachment="taskForm.attachment"/>
+            <v-row align="center" class="mb-4">
+                <v-col>
+                    <v-text-field
+                        v-model="commentField"
+                        label="Add a comment"
+                        hide-details
+                        variant="outlined"
+                        density="compact"
+                    ></v-text-field>
+                </v-col>
+                    <v-col cols="auto">
+                        <v-btn color="primary" @click="addComment">Comment</v-btn>
+                </v-col>
+            </v-row>
+            <v-timeline 
+            side="end" 
+            density="compact">
+                <v-timeline-item
+                v-for="comment in taskForm.comments"
+                :key="comment.dt"
+                size="xs-small"
+                >
+                    <div class="text-caption">
+                        {{ comment.msg }}
+                    </div>
+                    <small class="text-grey me-4">{{date.format(comment.dt, 'fullDateWithWeekday')}}</small>
+                </v-timeline-item>
+            </v-timeline>
+        </v-card-text> 
         <v-card-actions class="justify-space-between">
             <v-btn color="grey" @click="deleteTask" icon="mdi-delete"></v-btn>
             <div>
@@ -70,14 +99,15 @@ import FileUploadField from '@/components/common/FileUploadField';
 const appStore = useAppStore();
 const taskStore = useTaskStore();
 const { taskModal, taskStatuses } = storeToRefs(appStore);
-
+import { useDate } from 'vuetify/labs/date'
+const date = useDate()
 // If taskObj exist as prop (edit)
 const props = defineProps({
     taskObj: Object
 })
 
 const modalTitle = computed(() => {
-    return props.taskObj ? "Edit Task" : "Add New Task"
+    return props.taskObj.id ? "Edit Task" : "Add New Task"
 });
 
 const format = (dt) => {
@@ -97,14 +127,20 @@ const initialTaskForm = () => ({
     eta: null,
     attachment: [],
     status: "pending",
-    label: []
+    label: [],
+    comments: []
 });
+const commentField = ref("");
 const taskForm = reactive(initialTaskForm());
 const resetTaskForm = () => Object.assign(taskForm, initialTaskForm());
 const editTaskForm = () => Object.assign(taskForm, props.taskObj);
 
 watch(() => props.taskObj, () => {
-    editTaskForm();
+    if (props.taskObj.id) {
+        editTaskForm();
+    } else {
+        resetTaskForm();
+    }
 })
 function updateImage(obj) {
     taskForm.attachment = obj
@@ -117,7 +153,8 @@ function addNewTask() {
         eta: taskForm.eta,
         label: taskForm.label,
         attachment: taskForm.attachment,
-        status: taskForm.status
+        status: taskForm.status,
+        comments: taskForm.comments
     })
     resetTaskForm();
     taskModal.value = false;
@@ -131,7 +168,8 @@ function updateTask() {
         eta: taskForm.eta,
         label: taskForm.label,
         attachment: taskForm.attachment,
-        status: taskForm.status
+        status: taskForm.status,
+        comments: taskForm.comments
     })
     resetTaskForm();
     taskModal.value = false;
@@ -141,5 +179,20 @@ function deleteTask() {
     taskStore.deleteTodo(props.taskObj.id);
     resetTaskForm();
     taskModal.value = false;
+}
+function addComment() {
+    taskForm.comments.push({
+        msg: commentField.value,
+        dt: new Date()
+    });
+    commentField.value = "";
+}
+function deleteComment(dt) {
+    if (props.taskObj.id) {
+        taskStore.addComment({
+            taskId: props.taskObj.id,
+            commentTime: dt
+        })
+    }
 }
 </script>

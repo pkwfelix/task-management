@@ -20,12 +20,19 @@
                 Description:<br/>
                 {{ descriptionTruncate }}
             </div>
-            <div
-                class="mb-4 text-subtitle-1"
-                v-if="taskObj.attachment && taskObj.attachment.length > 0"
-            >
-                <v-icon size="sm" icon="mdi-paperclip"></v-icon>
-                {{ taskObj.attachment.length }}
+            <div class="d-flex mb-4 text-subtitle-1" style="gap:10px">
+                <div
+                    v-if="taskObj.attachment && taskObj.attachment.length > 0"
+                >
+                    <v-icon size="sm" icon="mdi-paperclip"></v-icon>
+                    {{ taskObj.attachment.length }}
+                </div>
+                <div
+                    v-if="taskObj.comments && taskObj.comments.length > 0"
+                >
+                    <v-icon size="sm" icon="mdi-message-outline"></v-icon>
+                    {{ taskObj.comments.length }}
+                </div>
             </div>
             <div v-if="taskObj.label.length > 0">
                 <v-chip 

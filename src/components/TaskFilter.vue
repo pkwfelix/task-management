@@ -1,5 +1,5 @@
 <template>
-	<v-form validate-on="submit lazy" @submit.prevent="submit" class="pa-4">
+	<v-form validate-on="submit lazy" class="pa-4">
 		<h6 class="text-h6 mb-3">Filter</h6>
 		<v-text-field
 			v-model="filterForm.title"

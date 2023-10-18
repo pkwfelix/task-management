@@ -5,7 +5,6 @@ export const useTaskStore = defineStore({
 	state: () => ({
 		tasks: [],
         id: 1,
-        order: 0,
         selectedTask: null,
 	}),
     persist: true,
@@ -23,7 +22,6 @@ export const useTaskStore = defineStore({
         updateTask(item) {
             this.tasks.find((task) => {
                 if (task.id == item.id) {
-                    console.log('123');
                     Object.assign(task, item)
                 }
             });
@@ -40,5 +38,16 @@ export const useTaskStore = defineStore({
                 }
             })
         },
+        // changeOrderInCol(movedTask, tasksList) {
+        //     console.log(tasksList.length);
+        //     tasksList.forEach((taskInList , index) => {
+        //         this.tasks.find((task) => {
+        //             if (task.id == taskInList.id) {
+        //                 task.order = index;
+        //                 console.log('name:'+task.title + ', index:'+index);
+        //             }
+        //         })
+        //     })
+        // },
     }
 })

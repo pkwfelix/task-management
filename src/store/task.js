@@ -6,12 +6,7 @@ export const useTaskStore = defineStore({
 		tasks: [],
         id: 1,
         order: 0,
-        search: {
-            title: null,
-            description: '',
-            label: '',
-            eta: null
-        }
+        selectedTask: null,
 	}),
     persist: true,
     getters: {

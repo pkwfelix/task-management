@@ -6,6 +6,7 @@ export const useAppStore = defineStore('app', {
 		filterDrawer: false,
 		taskModal: false,
 		alertMessage: null,
+		search: {},
 		taskStatuses: [
 			{
 				title: 'Pending',
@@ -21,12 +22,15 @@ export const useAppStore = defineStore('app', {
 			}
 		]
 	}),
-	action: {
+	actions: {
         startAlertTimer(msg) {
             this.startAlertTimer = msg;
 			setTimeout(() => {
 				this.alertMessage = null;
 			}, 3000);
         },
+		searchSet(search) {
+			this.search = search;
+		},
 	}
 })

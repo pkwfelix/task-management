@@ -1,5 +1,5 @@
 <template>
-    <v-container with-background>
+    <v-container with-background style="max-width:1200px">
         <v-progress-linear 
             v-model="progress.done" 
             :height="25"

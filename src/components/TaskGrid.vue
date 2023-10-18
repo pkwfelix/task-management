@@ -1,5 +1,5 @@
 <template>
-    <v-container with-background>
+    <v-container with-background  style="max-width:1200px">
         <v-row>
             <v-col
                 v-for="taskStatus in taskStatuses"

@@ -1,5 +1,5 @@
 <template>
-    <v-container class="d-flex justify-space-between pa-4 pb-0">
+    <v-container class="d-flex justify-space-between pa-4 pb-0" style="max-width:1200px">
         <v-btn 
             prepend-icon="mdi-text-search"
             outlined 

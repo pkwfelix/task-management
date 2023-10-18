@@ -6,7 +6,7 @@
         :animation="200" ghost-class="ghost-card"
         v-model="tasksFiltered"
         itemKey="index"
-        @change="log($event, props.taskStatus)">
+        @change="changeStatus($event, props.taskStatus)">
             <template #item="{element, index}">
                 <TaskCard :taskObj="element" class="mb-2"></TaskCard>
             </template>
@@ -23,7 +23,6 @@
 <script setup>
 import draggable from 'vuedraggable'
 import { defineProps, computed } from "vue";
-import { storeToRefs } from 'pinia'
 import { useTaskStore } from '@/store/task';
 import { useAppStore } from '@/store/app';
 import TaskCard from '@/components/TaskCard';
@@ -31,10 +30,10 @@ import { useDate } from 'vuetify/labs/date'
 
 const date = useDate()
 const taskStore = useTaskStore();
-const { tasks } = storeToRefs(taskStore);
 const appStore = useAppStore();
 const props = defineProps({
-    taskStatus: String
+    taskStatus: String,
+    taskCol: Object
 })
 const dateCompare = (dateInput, dateSearch) => {
     if (!dateInput)
@@ -44,7 +43,7 @@ const dateCompare = (dateInput, dateSearch) => {
 const tasksFiltered = computed({
     get() {
         if (appStore.search) {
-            return taskStore.getTaskbyStatus(props.taskStatus).filter(task => {
+            return props.taskCol.list.filter(task => {
                 if (appStore.search.title && !task.title.toLowerCase().includes(appStore.search.title.toLowerCase())) {
                     return false;
                 }
@@ -58,27 +57,18 @@ const tasksFiltered = computed({
                     return false;
                 }
                 return true;
-            }).sort((a, b) => a.order > b.order ? 1 : -1);
+            });
         } else {
-            return taskStore.getTaskbyStatus(props.taskStatus).sort((a, b) => a.order > b.order ? 1 : -1);
+            return props.taskCol.list;
         }
     },
     set(newValue) {
-        console.log(newValue);
-        tasks.value = newValue;
+        taskStore.tasks.find((taskCol) => taskCol.type == props.taskCol.type).list = newValue;
     }
 });
-function log(evt, status) {
+function changeStatus(evt, status) {
     if (evt.added && evt.added.status !== status) {
         taskStore.changeStatus(evt.added.element.id, status)
     }
-}
-function onMove(evt) {
-    if (evt.dragged) {
-        // taskStore.changeOrderInCol(evt.draggedContext, evt.relatedContext.list)
-    }
-}
-function onEnd(evt) {
-    // console.log(evt)
 }
 </script>

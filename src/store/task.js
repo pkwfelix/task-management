@@ -3,7 +3,20 @@ import { defineStore } from "pinia";
 export const useTaskStore = defineStore({   
 	id: 'Tasks',
 	state: () => ({
-		tasks: [],
+		tasks: [
+            {
+                type:'pending',
+                list: [],
+            },
+            {
+                type:'processing',
+                list: [],
+            },
+            {
+                type:'done',
+                list: [],
+            }
+        ],
         id: 1,
         selectedTask: null,
 	}),
@@ -14,7 +27,7 @@ export const useTaskStore = defineStore({
     },
     actions: {
         addTask(item) {
-            this.tasks.push({
+            this.tasks.find((taskCol) => taskCol.type == item.status).list.push({
                 ...item,
                 id: this.id++,
             });

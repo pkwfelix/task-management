@@ -48,9 +48,12 @@
             ></v-select>
         </v-card-text>
         <v-card-actions class="justify-space-between">
-            <v-btn color="secondary" @click="dialog = false">Close</v-btn>
-            <v-btn v-if="!props.taskObj.id" color="primary" variant="elevated" @click="addNewTask">Create</v-btn>
-            <v-btn v-else color="primary" variant="elevated" @click="updateTask">Save</v-btn>
+            <v-btn color="grey" @click="deleteTask" icon="mdi-delete"></v-btn>
+            <div>
+                <v-btn color="secondary" @click="dialog = false">Close</v-btn>
+                <v-btn v-if="!props.taskObj.id" color="primary" variant="elevated" @click="addNewTask">Create</v-btn>
+                <v-btn v-else color="primary" variant="elevated" @click="updateTask">Save</v-btn>
+            </div>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -134,4 +137,9 @@ function updateTask() {
     taskModal.value = false;
 }
 
+function deleteTask() {
+    taskStore.deleteTodo(props.taskObj.id);
+    resetTaskForm();
+    taskModal.value = false;
+}
 </script>

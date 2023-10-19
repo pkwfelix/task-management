@@ -72,7 +72,7 @@
                     <div class="text-caption">
                         {{ comment.msg }}
                     </div>
-                    <small class="text-grey me-4">{{date.format(comment.dt, 'fullDateWithWeekday')}}</small>
+                    <small class="text-grey me-4">{{(comment.dt)}}</small>
                 </v-timeline-item>
             </v-timeline>
         </v-card-text> 

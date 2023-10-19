@@ -2,6 +2,8 @@
     <v-card
         class="mx-1"
         max-width="368"
+        :color="cardColor"
+        variant="tonal"
     >
         <v-card-item>
             <v-card-title class="text-subtitle-1">{{ taskObj.title }}</v-card-title>
@@ -95,6 +97,12 @@ const etaFormatted = computed(()=> {
     }
 }); 
 const descriptionTruncate = computed(()=> truncateString(props.taskObj.description, 60));
+
+const cardColor = computed(() => {
+    if (props.taskObj.status == 'done') return 'green'
+    if (props.taskObj.status == 'processing') return 'indigo'
+    if (props.taskObj.status == 'pending') return 'yellow-darken-4'
+});
 
 function deleteTask(id) {
     taskStore.deleteTodo(id);

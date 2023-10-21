@@ -55,6 +55,7 @@
                         hide-details
                         variant="outlined"
                         density="compact"
+                        @keydown.enter="addComment"
                     ></v-text-field>
                 </v-col>
                     <v-col cols="auto">

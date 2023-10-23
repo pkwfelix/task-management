@@ -1,4 +1,4 @@
-# essentials
+# Vuetify Simple Task Management
 
 ## Project setup
 
